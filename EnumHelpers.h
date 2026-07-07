@@ -45,7 +45,7 @@ namespace EnumHelpers
             };
 
             // B. Count the valid ones! 
-            // If the compiler outputs a cast like "(AIState)5", it has a parenthesis.
+            // If the compiler outputs a cast like "(EnumType)5", it has a parenthesis.
             // So, if there is NO parenthesis, it is a valid enum name. We count those.
             constexpr std::size_t valid_count = (
                 ((temp_names[Indices].find('(') == std::string_view::npos) ? 1 : 0) + ...
@@ -60,7 +60,6 @@ namespace EnumHelpers
             {
                 if (temp_names[i].find('(') == std::string_view::npos)
                 {
-                    // Save both the integer value AND the string name
                     packed_table[packed_idx] = EnumEntry<E>{ static_cast<E>(i), temp_names[i] };
                     packed_idx++;
                 }
@@ -73,11 +72,8 @@ namespace EnumHelpers
     template <typename E>
     constexpr std::string enum_to_string(E value)
     {
-        // Generate the perfectly packed table (checks 0 through 15)
         constexpr auto table = internal::build_packed_table<E>(std::make_index_sequence<internal::MaxEnumSize>{});
 
-        // Because the table is packed, we can't just use array[index] anymore.
-        // We do a blazing-fast linear search over our tiny valid table.
         for (const auto& entry : table)
         {
             if (entry.value == value)
