@@ -14,5 +14,6 @@ int main()
 {
 	TestEnum testValue = EnumValue2;
 	std::cout << EnumHelpers::enum_to_string(testValue) << std::endl; // EnumValue2
+
 	return 0;
 }
