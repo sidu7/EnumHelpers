@@ -1,19 +1,34 @@
 #include <iostream>
 #include "EnumHelpers.h"
 
-enum TestEnum
+enum Colors
 {
-	EnumValue0,
-	EnumValue1,
-	EnumValue2,
-	EnumValue3,
-	EnumValue4,
+	Red = -10,
+	Green = 3,
+	Blue = 7,
+	Yellow,
+	Purple	
+};
+
+enum class Fruits
+{
+	Apple = -1,
+	Banana,
+	Orange = 4,
+	Pear,
+	Strawberry
 };
 
 int main()
 {
-	TestEnum testValue = EnumValue2;
-	std::cout << EnumHelpers::enum_to_string(testValue) << std::endl; // EnumValue2
+	Colors colorValue = Green;
+	std::cout << EnumHelpers::enum_to_string(colorValue) << std::endl; // Green
+	std::cout << static_cast<int32_t>(EnumHelpers::enum_from_string<Colors>("Yellow").value_or(Colors::Red)) << std::endl; // 8
+
+
+	Fruits fruitValue = Fruits::Apple;
+	std::cout << EnumHelpers::enum_to_string(fruitValue) << std::endl; // Apple
+	std::cout << static_cast<int32_t>(EnumHelpers::enum_from_string<Fruits>("Banana").value_or(Fruits::Apple)) << std::endl; // 0
 
 	return 0;
 }
